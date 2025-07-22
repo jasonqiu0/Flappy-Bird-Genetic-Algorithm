@@ -4,7 +4,7 @@ import config
 
 class Bird:
     def __init__(self):
-        self.x, self.y = 50, 400
+        self.x, self.y = 50, 300
         self.rect = pygame.Rect(self.x, self.y, 20, 20)
         self.color = random.randint(100,255), random.randint(100,255), random.randint(100,255)
         self.vel = 0

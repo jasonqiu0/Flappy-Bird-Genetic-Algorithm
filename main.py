@@ -4,6 +4,7 @@ import config
 import game
 import population
 
+
 pygame.init()
 clock = pygame.time.Clock()
 population = population.Population(20)
@@ -41,7 +42,7 @@ def main():
             population.update_birds()
         else:
             pass
-        
+
         clock.tick(60)
         pygame.display.flip()
 
