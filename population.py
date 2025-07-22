@@ -4,14 +4,13 @@ import bird
 class Population:
     def __init__(self, size):
         self.birds = []
-
-        self.size = size
-        for i in range(0,size):
+        for _ in range(size):
             self.birds.append(bird.Bird())
 
     def update_birds(self):
         for b in self.birds:
             if b.alive:
+                b.look()
                 b.think()
                 b.draw(config.window)
                 b.update(config.ground)

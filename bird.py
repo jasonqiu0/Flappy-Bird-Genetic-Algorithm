@@ -1,6 +1,7 @@
 import random
 import pygame
 import config
+import brain
 
 class Bird:
     def __init__(self):
@@ -12,7 +13,10 @@ class Bird:
         self.alive = True
 
         self.decision = None 
-    
+        self.vision = [0.5,1,0.5]
+        self.inputs = 3
+        self.brain = brain.Brain(self.inputs)
+        self.brain.generate_net()
 
     def draw(self, window):
         pygame.draw.rect(window, self.color, self.rect)
@@ -45,8 +49,31 @@ class Bird:
         if self.vel >= 3:
             self.flap = False
     
+    @staticmethod
+    def closest_obstacle():
+        for o in config.obstacles:
+            if not o.passed:
+                return o
+    
+    def look(self): # vision
+        if config.obstacles:
+            # i0 distance
+            self.vision[0] = max(0,self.rect.center[1] - self.closest_obstacle().top_rect.bottom) / 600
+            pygame.draw.line(config.window, self.color, self.rect.center, 
+                             (self.rect.center[0], config.obstacles[0].top_rect.bottom))
+
+            # i1 distance
+            self.vision[1] = max(0,self.closest_obstacle().x - self.rect.center[0]) / 600
+            pygame.draw.line(config.window, self.color, self.rect.center, 
+                             (config.obstacles[0].x, self.rect.center[1]))
+
+            # i2 distance
+            self.vision[2] = max(0, self.closest_obstacle().bottom_rect.top - self.rect.center[1]) / 600
+            pygame.draw.line(config.window, self.color, self.rect.center, 
+                             (self.rect.center[0], config.obstacles[0].bottom_rect.top))
 
     def think(self):
-        self.decision = random.uniform(0,1) #determines whether or not the bird flaps
+        self.decision = self.brain.feed_forward(self.vision)
         if self.decision > 0.73:
             self.bird_flap()
+    

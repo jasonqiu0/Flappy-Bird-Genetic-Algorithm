@@ -7,7 +7,7 @@ import population
 
 pygame.init()
 clock = pygame.time.Clock()
-population = population.Population(20)
+population = population.Population(50)
 
 def generate_obstalce():
     config.obstacles.append(game.Obstacle(config.window_width))
