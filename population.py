@@ -6,4 +6,7 @@ class Population:
         self.bird = bird.Bird()
 
     def update_birds(self):
-        self.bird.draw(config.window)
+        if self.bird.alive:
+            self.bird.think()
+            self.bird.draw(config.window)
+            self.bird.update(config.ground)
