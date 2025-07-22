@@ -2,9 +2,11 @@ import pygame
 from sys import exit
 import config
 import game
+import population
 
 pygame.init()
 clock = pygame.time.Clock()
+population = population.Population()
 
 def generate_obstalce():
     config.obstacles.append(game.Obstacle(config.window_width))
@@ -35,6 +37,8 @@ def main():
             if o.off_screen:
                 config.obstacles.remove(o)
 
+        population.update_birds()
+        
         clock.tick(60)
         pygame.display.flip()
 
