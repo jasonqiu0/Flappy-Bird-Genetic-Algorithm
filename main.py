@@ -1,14 +1,18 @@
 import pygame
+import math
+import operator
 from sys import exit
+
+
 import config
 import game
 import population
-
+import species
 
 pygame.init()
 clock = pygame.time.Clock()
-population = population.Population(50)
-font = pygame.font.Font(None, 30)
+population = population.Population(10)
+font = pygame.font.Font(None, 35)
 
 start_time = pygame.time.get_ticks()
 obstacles_passed = 0
@@ -53,14 +57,15 @@ def main():
         if not population.extinct():
             population.update_birds()
         else:
-            pass
+            config.obstacles.clear()
+            population.natural_selection()
         
         alive_count = sum(1 for b in population.birds if b.alive)
         text_surface = font.render(f"Remaining Birds: {alive_count}", True, (255, 255, 255))
         
         time_text = font.render(f"Time: {elapsed_seconds}s", True, (255, 255, 255))
         obstacles_text = font.render(f"Obstacles Passed: {obstacles_passed}", True, (255, 255, 255))
-        
+
         
         config.window.blit(text_surface, (10, config.window_height - 90))
         config.window.blit(time_text, (10, config.window_height - 60))

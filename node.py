@@ -1,4 +1,5 @@
 import math
+
 """
 i0 = vertical distance of bird from top obstacle
 i1 = horizontal distance of bird from obstacle
@@ -27,3 +28,9 @@ class Node:
         """
         for i in range(0, len(self.connections)): 
             self.connections[i].to_node.input_value += self.connections[i].weight * self.output_value
+    
+    def clone(self):
+        clone = Node(self.id)
+        clone.id = self.id
+        clone.layer = self.layer
+        return clone

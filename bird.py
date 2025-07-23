@@ -5,12 +5,15 @@ import brain
 
 class Bird:
     def __init__(self):
-        self.x, self.y = 50, 300
+        self.x, self.y = 50, 400
         self.rect = pygame.Rect(self.x, self.y, 20, 20)
         self.color = random.randint(100,255), random.randint(100,255), random.randint(100,255)
         self.vel = 0
         self.flap = False
         self.alive = True
+
+        self.lifespan = 0
+        self.fitness = 0
 
         self.decision = None 
         self.vision = [0.5,1,0.5]
@@ -37,6 +40,9 @@ class Bird:
             self.rect.y = self.rect.y + self.vel 
             if self.vel > 5:
                 self.vel = 5
+            
+            self.lifespan += 1 # increment lifespan everytime the function is called
+
         else:
             self.alive = False
             self.flap = False
@@ -76,4 +82,14 @@ class Bird:
         self.decision = self.brain.feed_forward(self.vision)
         if self.decision > 0.73:
             self.bird_flap()
+    
+    def calculate_fitness(self):
+        self.fitness = self.lifespan
+
+    def clone(self):
+        clone = Bird()
+        clone.fitness = self.fitness
+        clone.brain = self.brain.clone()
+        clone.brain.generate_net()
+        return clone
     

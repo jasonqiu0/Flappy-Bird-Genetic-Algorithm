@@ -13,7 +13,7 @@ class Ground:
 
 class Obstacle:
     width = 10
-    gap = 150
+    gap = 130
 
     def __init__(self, window_width):
         self.x = window_width
